@@ -5,7 +5,7 @@ weatherSearch("name", "Hong Kong");
 function weatherSearch(index, keyword) {
     $.ajax({
         type: "GET",
-		url: "https://testing305cde.herokuapp.com/" + "weathers/" + index + "=" + keyword,
+		url: "https://localhost:3000/" + "weathers/" + index + "=" + keyword,
 		format:"jsonp",
 		dataType: "jsonp",
 		beforeSend: function(){	            
@@ -48,7 +48,7 @@ function weatherSearch(index, keyword) {
     
     $.ajax({
         type: "GET",
-		url: "https://testing305cde.herokuapp.com/" + "forecasts/" + index + "=" + keyword,
+		url: "https://localhost:3000/" + "forecasts/" + index + "=" + keyword,
 		format:"jsonp",
 		dataType: "jsonp",
 		beforeSend: function(){	            

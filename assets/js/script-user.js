@@ -71,7 +71,7 @@ function signup(){
 function loginWithDatabase(email, password) {
     $.ajax({
         type: "GET",
-		url: "https://testing305cde.herokuapp.com/user/login/email=" + email + "&pw=" + password,
+		url: "https://localhost:3000/user/login/email=" + email + "&pw=" + password,
 		format:"jsonp",
 		dataType: "jsonp",
 		beforeSend: function(){	            
@@ -114,7 +114,7 @@ function loginWithDatabase(email, password) {
 function signupWithDatabase(email, password) {
     $.ajax({
         type: "GET",
-		url: "https://testing305cde.herokuapp.com/user/signup/email=" + email + "&pw=" + password,
+		url: "https://localhost:3000/user/signup/email=" + email + "&pw=" + password,
 		format:"jsonp",
 		dataType: "jsonp",
 		beforeSend: function(){	            
