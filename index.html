@@ -1,0 +1,291 @@
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	
+	<title>Weathers</title>
+	
+	<!-- Custom CSS -->
+	<link href="assets/css/style.css" rel="stylesheet" />
+	<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="assets/vendor/bootstrap/css/bootstrap-dialog.css" rel="stylesheet" />
+	<link href="assets/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+	<link href="assets/vendor/datatables/responsive.bootstrap4.min.css" rel="stylesheet" />
+	<link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+	<!-- Navigation-->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+		<a class="navbar-brand" href="${webBaseUrl}">Weathers</a>
+		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+					<a class="nav-link" href="index.html">
+						<i class="fa fa-fw fa-dashboard"></i><span class="nav-link-text"> Dashboard</span>
+					</a>
+				</li>
+				<li id="nav-favourites" class="nav-item hidden" data-toggle="tooltip" data-placement="right" title="Favourites">
+					<a class="nav-link" data-toggle="modal" data-target="#favouritesModal" >
+		            	<i class="fa fa-fw fa-bookmark"></i><span class="nav-link-text"> Favourites</span>
+		            </a>
+				</li>
+				<li id="nav-logout" class="nav-item hidden" data-toggle="tooltip" data-placement="right" title="Logout">
+					<a class="nav-link" data-toggle="modal" data-target="#logoutModal">
+		            	<i class="fa fa-fw fa-sign-out"></i><span class="nav-link-text"> Logout</span>
+		            </a>
+				</li>
+				<li id="nav-login" class="nav-item" data-toggle="tooltip" data-placement="right" title="Login">
+					<a class="nav-link" data-toggle="modal" data-target="#loginModal">
+		            	<i class="fa fa-fw fa-sign-in"></i><span class="nav-link-text"> Login</span>
+		            </a>
+				</li>
+				<li id="nav-signup" class="nav-item" data-toggle="tooltip" data-placement="right" title="sign-up">
+					<a class="nav-link" data-toggle="modal" data-target="#signupModal">
+		            	<i class="fa fa-fw fa-user-plus"></i><span class="nav-link-text"> Sign-up</span>
+		            </a>
+				</li>
+			</ul>
+			<ul class="navbar-nav sidenav-toggler">
+				<li class="nav-item">
+					<a class="nav-link text-center" id="sidenavToggler">
+						<i class="fa fa-fw fa-angle-left"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<!-- /Navigation -->
+
+	<div class="content-wrapper">
+		<div class="container-fluid" id="contentPanel">
+			<div class="row">
+				<div class="col-md-3 col-md-offset-3">
+					<!-- Card -->
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fa fa-search"></i> Search City By Name
+						</div>
+						<form action="javascript:weatherSearch($('#index').val(), $('#keyword').val());">
+							<div class="card-body form-inline my-2 my-lg-0 mr-lg-2">
+								<input id="index" class="form-control" type="hidden" value="name" >
+								<input id="keyword" class="form-control" type="text" placeholder="Search for..."> 
+								<span class="input-group-append">
+									<button class="btn btn-primary" type="submit" style="height: 35px;" id="search">
+										<i class="fa fa-search"></i>
+									</button>
+								</span>
+								<!-- System message -->
+								<div class="message">
+									<span id="system-message"></span> 
+									<span id="error-message"></span>
+								</div>	
+							</div>
+						</form>
+					</div>
+					<!-- Card -->
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fa fa-tint"></i> Weather in <span class="city-name"></span>, <span class="city-country"></span>
+						</div>
+						<div class="card-body weather">
+							<div class="current">
+								<div class="info">
+									<div class="city"><small><small>CITY:</small></small> <span id="city-name" class="city-name"></span></div>
+									<div class="temp"><img class="city-icon" width="50" height="50" /><span class="city-temp"></span>&deg;<small>C</small></div>
+									<div class="others"><small><small>Wind:</small></small> <span class="city-wind"></span></div>
+									<div class="others"><small><small>Cloudiness:</small></small> <span class="city-clound"></span></div>
+									<div class="others"><small><small>Pressure:</small></small> <span class="city-pressure"></span></div>
+									<div class="others"><small><small>Humidity:</small></small> <span class="city-humidity"></span></div>
+									<div class="others"><small><small>Sunrise:</small></small> <span class="city-sunrise"></span></div>
+									<div class="others"><small><small>Sunset:</small></small> <span class="city-sunset"></span></div>
+									<div class="others"><small><small>Geo coords:</small></small> <span class="city-geo"></span></div>
+									<br/>
+									<!-- System message -->
+									<div class="message">
+										<span id="add-system-message"></span> 
+										<span id="add-error-message"></span>
+									</div>	
+									<button id="favourite-add"class="btn btn-primary" type="button" onclick="addFavourites($('#city-name').text())">Add Favourites</button>
+								</div>
+								<div class="icon">
+									<span class="wi-day-sunny"></span>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer small text-muted">Updated <span class="city-update-time"></span></div>
+					</div>
+				</div>
+				<div class="col-md-9 col-md-offset-9">
+					<!-- Area Chart Example-->
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fa fa-area-chart"></i> Weather and forecasts in <span class="city-name"></span>, <span class="city-country"></span>
+						</div>
+						<div class="card-body">
+							<div id="graph-container">
+								<canvas id="results-graph" width="85%" height="35"></canvas>
+							</div>
+							<div class="row" id="forecast-icons"></div>
+						</div>
+						
+						<div class="card-footer small text-muted">Updated <span class="city-update-time"></span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.container-fluid-->
+		
+		<!-- Footer -->
+		<footer class="sticky-footer">
+			<div class="container">
+				<div class="text-center">
+					<small>Copyright © Weathers 2018</small>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Image loader -->
+		<div id='loader' style='display: none;position: fixed;width: 32px;height: 32px;top: 50%;left: 50%;margin-top: -32px;margin-left: -32px;'>
+			<img src='assets/img/ajax-loader.gif' width='32px' height='32px'>
+		</div>
+	
+		<!-- Scroll to Top Button -->
+		<a class="scroll-to-top rounded" href="#page-top"> 
+			<i class="fa fa-angle-up"></i>
+		</a>
+		
+	    <!-- Favourites Modal-->
+	    <div class="modal fade" id="favouritesModal" tabindex="-1" role="dialog" aria-labelledby="favouritesModalLabel" aria-hidden="true">
+	      <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLabel">Favourites List:</h5>
+	            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">×</span>
+	            </button>
+	          </div>
+	          <div class="modal-body">
+	          	<table class="table">
+	          	<tr><th>City name</th><th>Action</th></tr>
+	          	<tbody id="favourites-list"></tbody>
+	          	</table>
+				<!-- System message -->
+				<div class="message">
+					<span id="favourites-system-message"></span> 
+					<span id="favourites-error-message"></span>
+				</div>	
+	          </div>
+	          <div class="modal-footer">
+	            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    
+	    <!-- Logout Modal-->
+	    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+	      <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+	            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">×</span>
+	            </button>
+	          </div>
+	          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+	          <div class="modal-footer">
+				<form action="javascript:logout();">
+		            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+		            <button class="btn btn-primary" type="submit" href="#">Logout</button>
+				</form>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+
+	    <!-- Login Modal-->
+	    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+	      <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLabel">Enter email and password:</h5>
+	            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">×</span>
+	            </button>
+	          </div>	
+		  		<form action="javascript:login();">
+		          <div class="modal-body">
+		          	<input id="login-email" class="form-control" name="email" type="email" value="" placeholder="Email" style="margin-bottom: 5px"/>
+					<input id="login-password" class="form-control" name="password" type="password" value="" placeholder="Password" />
+					<!-- System message -->
+					<div class="message">
+					  	<span id="login-system-message"></span> 
+						<span id="login-error-message"></span>
+				  	</div>
+		          </div>
+		          <div class="modal-footer">
+			            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+			            <button class="btn btn-primary" type="submit" href="#">Login</button>
+		          </div>
+		  		</form>
+	        </div>
+	      </div>
+	    </div>	    
+	    
+	    <!-- Sign-up Modal-->
+	    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+	      <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLabel">Sign-up for free</h5>
+	            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">×</span>
+	            </button>
+	          </div>
+			  <form action="javascript:signup();">
+		          <div class="modal-body">
+		          	<input id="signup-email" class="form-control" name="email" type="email" value="" placeholder="Email" style="margin-bottom: 5px"/>
+					<input id="signup-password" class="form-control" name="password" type="password" value="" placeholder="Password" /><br/>
+					Re-input for confirmation
+		          	<input id="signup-confemail" class="form-control" name="confemail" type="email" value="" placeholder="Email" style="margin-bottom: 5px"/>
+					<input id="signup-confpassword" class="form-control" name="confpassword" type="password" value="" placeholder="Password" />
+					<!-- System message -->
+					<div class="message">
+					  	<span id="signup-system-message"></span> 
+						<span id="signup-error-message"></span>
+				  	</div>
+		          </div>
+		          <div class="modal-footer">
+		            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+		            <button id="signup"class="btn btn-primary" type="submit" href="#">Sign Up</button>
+		          </div>
+			  </form>
+	        </div>
+	      </div>
+	    </div>
+	    
+
+		<!-- JavaScript -->
+		<script src="assets/vendor/jquery/jquery.min.js"></script>
+		<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="assets/vendor/bootstrap/js/bootstrap-dialog.js"></script>
+		<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    	<script src="assets/vendor/chart.js/Chart.min.js"></script>
+		<script src="assets/vendor/datatables/jquery.dataTables.js"></script>
+		<script src="assets/vendor/datatables/dataTables.bootstrap4.js"></script>
+		<script src="assets/js/script-favourite.js"></script>
+		<script src="assets/js/script-weather.js"></script>
+		<script src="assets/js/script-user.js"></script>
+   		<script src="assets/js/script-framework.js"></script>
+	</div>
+</body>
+</html>
